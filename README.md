@@ -5,6 +5,7 @@ I solved the case first in Common Lisp because it is a functional language I hav
 You can find the lisp code in the folder lisp.\
 To create the executable file run make or 'make all' in the lisp folder.\
 When testing the code has been compiled and executed on Arch Linux.\
+If the scripts doesn't work, check if the path to sbcl in the beginning of the scripts is correct.\
 Dependencies:
 * sbcl
 * make
