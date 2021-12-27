@@ -28,19 +28,18 @@
     (reduce #'+ (mapcar #'rec matrix))))
 
 (defun wnpair (row)
-  (labels ((pair (lst)
-             (if (null lst) nil
-               (let* ((f (car lst))
-                      (s (find-if #'(lambda (e)
-                                      (zerop (rem (max f e) (min f e))))
-                                  (cdr lst))))
-                 (if s
-                   (cons (list (max f s) (min f s))
-                         (pair (remove-if #'(lambda (e)
-                                              (or (equal f e) (equal s e)))
-                                          lst)))
-                   (pair (cdr lst)))))))
-    (pair row)))
+  (if (null row) nil
+    (let* ((f (car row))
+           (r (cdr row))
+           (s (find-if #'(lambda (e)
+                           (zerop (rem (max f e) (min f e))))
+                       r)))
+      (if s
+        (cons (list (max f s) (min f s))
+              (wnpair (remove-if #'(lambda (e)
+                                     (or (equal f e) (equal s e)))
+                                 row)))
+        (wnpair r)))))
 
 (defun part2general (matrix)
     (reduce #'+ (mapcar #'car (mapcar #'(lambda (row)
