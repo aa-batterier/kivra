@@ -49,4 +49,4 @@
                                       matrix))))
 
 (defun main ()
-  (format t "~D~%~D~%" (part1fast *input*) (part2general *input*)))
+  (format t "~D~%~D~%" (part2fast *input*) (part2general *input*)))
