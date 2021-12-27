@@ -14,3 +14,15 @@
                   (8702 6973 203 4401 8135 7752 1704 8890 182 9315 255 229 6539 647 6431 6178)
                   (2290 157 2759 3771 4112 2063 153 3538 3740 130 3474 1013 180 2164 170 189)
                   (525 1263 146 954 188 232 1019 918 268 172 1196 1091 1128 234 650 420)))
+
+(defun part2fast (matrix)
+  (labels ((rec (lst)
+             (if (null lst) 0 
+               (let* ((f (car lst))
+                      (s (find-if #'(lambda (e)
+                                      (zerop (rem (max f e) (min f e))))
+                                  (cdr lst))))
+                 (if s
+                   (/ (max f s) (min f s)) 
+                   (rec (cdr lst)))))))
+    (reduce #'+ (mapcar #'rec matrix))))
