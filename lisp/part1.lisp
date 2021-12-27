@@ -19,3 +19,6 @@
   (reduce #'+ (mapcar #'(lambda (row)
                           (- (apply #'max row) (apply #'min row)))
                       matrix)))
+
+(defun main ()
+  (format t "~D~%" (part1 *input*)))
