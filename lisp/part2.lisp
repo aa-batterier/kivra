@@ -1,3 +1,16 @@
+;;;; Information about sourcedevelopment.
+;; --------------------------------------
+;; Initial creator: Andreas Johansson.
+;; Date created: 27-12-2021
+
+;;; File: part2.lisp
+;; ------------------
+;; In this file is the source code for the functions that takes a matrix as input
+;; and calculates the sum of all the fractions, where the rest is zero, in each row.
+
+;;; Global variable: *input*
+;; --------------------------
+;; This is the matrix used in the main function.
 (defvar *input* '((1208 412 743 57 1097 53 71 1029 719 133 258 69 1104 373 367 365)
                   (4011 4316 1755 4992 228 240 3333 208 247 3319 4555 717 1483 4608 1387 3542)
                   (675 134 106 115 204 437 1035 1142 195 1115 569 140 1133 190 701 1016)
@@ -15,18 +28,29 @@
                   (2290 157 2759 3771 4112 2063 153 3538 3740 130 3474 1013 180 2164 170 189)
                   (525 1263 146 954 188 232 1019 918 268 172 1196 1091 1128 234 650 420)))
 
+;;; Function: part2fast
+;; ---------------------
+;; Sums together all the fractions from each row.
+;; This function doesn't take in the options for multiple pairs
+;; of numbers in each row where the rest from division is zero.
 (defun part2fast (matrix)
   (labels ((rec (lst)
              (if (null lst) 0 
                (let* ((f (car lst))
+                      (r (cdr lst))
                       (s (find-if #'(lambda (e)
                                       (zerop (rem (max f e) (min f e))))
-                                  (cdr lst))))
+                                  r)))
                  (if s
                    (/ (max f s) (min f s)) 
-                   (rec (cdr lst)))))))
+                   (rec r))))))
     (reduce #'+ (mapcar #'rec matrix))))
 
+;;; Function: wnpair
+;; ------------------
+;; Takes in a list (row) of numbers as input and find and seperate out
+;; the pairs of numbers, which divided by each other has the rest zero,
+;; into a list which is returned.
 (defun wnpair (row)
   (if (null row) nil
     (let* ((f (car row))
@@ -41,6 +65,11 @@
                                  row)))
         (wnpair r)))))
 
+;;; Function: part2general
+;; ------------------------
+;; part2general is more general then part2fast because it can handle multiple pairs
+;; in each row. part2general takes a matrix as input, sums together the fractions from
+;; division between two integers where the rest is zero. It returns the sum.
 (defun part2general (matrix)
     (reduce #'+ (mapcar #'car (mapcar #'(lambda (row)
                                           (mapcar #'(lambda (pair)
@@ -48,5 +77,9 @@
                                                   (wnpair row)))
                                       matrix))))
 
+;;; Function: main
+;; -----------------
+;; This is the main function called in the executable file,
+;; it prints out the result to standard output.
 (defun main ()
   (format t "~D~%~D~%" (part2fast *input*) (part2general *input*)))

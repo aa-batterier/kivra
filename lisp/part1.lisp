@@ -1,3 +1,17 @@
+;;;; Information about sourcedevelopment.
+;; --------------------------------------
+;; Initial creator: Andreas Johansson.
+;; Date created: 27-12-2021
+
+;;; File: part1.lisp
+;; ------------------
+;; In this file is the source code for functions that takes a matrix as input
+;; and calculates the sum of all the differences between the smallest and biggest
+;; number in each row.
+
+;;; Global variable: *input*
+;; --------------------------
+;; This is the matrix used in the main function.
 (defvar *input* '((1208 412 743 57 1097 53 71 1029 719 133 258 69 1104 373 367 365)
                   (4011 4316 1755 4992 228 240 3333 208 247 3319 4555 717 1483 4608 1387 3542)
                   (675 134 106 115 204 437 1035 1142 195 1115 569 140 1133 190 701 1016)
@@ -15,10 +29,18 @@
                   (2290 157 2759 3771 4112 2063 153 3538 3740 130 3474 1013 180 2164 170 189)
                   (525 1263 146 954 188 232 1019 918 268 172 1196 1091 1128 234 650 420)))
 
+;;; Function: part1
+;; ------------------
+;; Sums together all the differences between the
+;; the smallest and biggest number in each row.
 (defun part1 (matrix)
   (reduce #'+ (mapcar #'(lambda (row)
                           (- (apply #'max row) (apply #'min row)))
                       matrix)))
 
+;;; Function: main
+;; -----------------
+;; This is the main function called in the executable file,
+;; it prints out the result to standard output.
 (defun main ()
   (format t "~D~%" (part1 *input*)))
