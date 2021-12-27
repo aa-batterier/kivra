@@ -43,3 +43,11 @@
                         (cons f (remove-if #'(lambda (e) (equal f e))
                                            (rmduplicate (cdr lst)))))))))
     (rmduplicate (pair row))))
+
+(defun part2general (matrix)
+    (reduce #'+ (mapcar #'car (mapcar #'(lambda (row)
+                                          (mapcar #'(lambda (pair)
+                                                      (apply #'/ pair))
+                                                  (wnpair row)))
+                                      matrix))))
+
