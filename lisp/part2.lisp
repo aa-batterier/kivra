@@ -26,3 +26,20 @@
                    (/ (max f s) (min f s)) 
                    (rec (cdr lst)))))))
     (reduce #'+ (mapcar #'rec matrix))))
+
+(defun wnpair (row)
+  (labels ((pair (lst)
+             (if (null lst) nil
+               (let* ((f (car lst))
+                      (s (find-if #'(lambda (e)
+                                      (zerop (rem (max f e) (min f e))))
+                                  (cdr lst))))
+                 (if s
+                   (cons (list (max f s) (min f s)) (pair (cdr lst)))
+                   (pair (cdr lst))))))
+           (rmduplicate (lst)
+             (cond ((null lst) nil)
+                   (T (let ((f (car lst)))
+                        (cons f (remove-if #'(lambda (e) (equal f e))
+                                           (rmduplicate (cdr lst)))))))))
+    (rmduplicate (pair row))))
