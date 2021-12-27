@@ -51,3 +51,5 @@
                                                   (wnpair row)))
                                       matrix))))
 
+(defun main ()
+  (format t "~D~%~D~%" (part1fast *input*) (part2general *input*)))
