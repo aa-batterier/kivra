@@ -21,4 +21,11 @@ part1() ->
                  [525,1263,146,954,188,232,1019,918,268,172,1196,1091,1128,234,650,420]].
         F = fun(L) -> max(L) - min(L) end,
         % Without concurrency:
-        sum([F(Lst) || Lst <- Input]).
+        %sum([F(Lst) || Lst <- Input]).
+        % With concurrency:
+        ParentPid = self(),
+        sum([receive
+                 {Pid,Result} ->
+                     Result
+             end ||
+            Pid <- [spawn_link(fun() -> ParentPid ! {self(),F(L)} end) || L <- Input]]).
