@@ -1,8 +1,18 @@
--module(testPart1).
+-module(part2).
 -import(lists,[sum/1,min/1,max/1]).
--export([part1/0]).
+-export([part2/0]).
 
-part1() ->
+fraction([]) -> 0;
+fraction([H|T]) ->
+        L = [E || E <- T, max([H,E]) rem min([H,E]) =:= 0],
+        if L =:= [] ->
+                   fraction(T);
+           true ->
+                   [E|_] = L,
+                   max([H,E]) / min([H,E])
+        end.
+
+part2() ->
         Input = [[1208,412,743,57,1097,53,71,1029,719,133,258,69,1104,373,367,365],
                  [4011,4316,1755,4992,228,240,3333,208,247,3319,4555,717,1483,4608,1387,3542],
                  [675,134,106,115,204,437,1035,1142,195,1115,569,140,1133,190,701,1016],
@@ -19,13 +29,9 @@ part1() ->
                  [8702,6973,203,4401,8135,7752,1704,8890,182,9315,255,229,6539,647,6431,6178],
                  [2290,157,2759,3771,4112,2063,153,3538,3740,130,3474,1013,180,2164,170,189],
                  [525,1263,146,954,188,232,1019,918,268,172,1196,1091,1128,234,650,420]],
-        F = fun(L) -> max(L) - min(L) end,
-        % Without concurrency:
-        %sum([F(Lst) || Lst <- Input]).
-        % With concurrency:
         ParentPid = self(),
         sum([receive
                  {Pid,Result} ->
                      Result
              end ||
-            Pid <- [spawn_link(fun() -> ParentPid ! {self(),F(L)} end) || L <- Input]]).
+             Pid <- [spawn_link(fun() -> ParentPid ! {self(),fraction(L)} end) || L <- Input]]).
