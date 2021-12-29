@@ -52,18 +52,20 @@
 ;; the pairs of numbers, which divided by each other has the rest zero,
 ;; into a list which is returned.
 (defun wnpair (row)
-  (if (null row) nil
-    (let* ((f (car row))
-           (r (cdr row))
-           (s (find-if #'(lambda (e)
-                           (zerop (rem (max f e) (min f e))))
-                       r)))
-      (if s
-        (cons (list (max f s) (min f s))
-              (wnpair (remove-if #'(lambda (e)
-                                     (or (equal f e) (equal s e)))
-                                 row)))
-        (wnpair r)))))
+  (cond ((null row) nil)
+        ((atom row) nil)
+        ((equal (length row) 1) nil)
+        (t (let* ((f (car row))
+                  (r (cdr row))
+                  (s (find-if #'(lambda (e)
+                                  (zerop (rem (max f e) (min f e))))
+                              r)))
+             (if s
+               (cons (list (max f s) (min f s))
+                     (wnpair (remove-if #'(lambda (e)
+                                            (or (equal f e) (equal s e)))
+                                        row)))
+               (wnpair r))))))
 
 ;;; Function: part2general
 ;; ------------------------
