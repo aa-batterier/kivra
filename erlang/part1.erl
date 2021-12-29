@@ -1,4 +1,4 @@
--module(testPart1).
+-module(part1).
 -import(lists,[sum/1,min/1,max/1]).
 -export([part1/0]).
 
