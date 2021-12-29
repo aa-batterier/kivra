@@ -1,2 +1,2 @@
 #!/bin/bash
-erl -noshell -a part1 start -s init stop
+erl -noshell -s part1 part1 -s init stop
