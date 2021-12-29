@@ -1,9 +1,9 @@
 %%%% Information about sourcedevelopment.
 %% --------------------------------------
 %% Initial creator: Andreas Johansson.
-%% Date created: 27-12-2021
+%% Date created: 28-12-2021
 
-%%% File: part1.lisp
+%%% File: part1.erl
 %% ------------------
 %% In this file is the source code for functions that takes a matrix as input
 %% and calculates the sum of all the differences between the smallest and biggest
