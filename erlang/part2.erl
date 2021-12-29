@@ -1,15 +1,17 @@
 -module(part2).
--import(lists,[sum/1,min/1,max/1]).
+-import(lists,[sum/1,min/1,max/1,append/2]).
 -export([part2/0]).
 
-fraction([]) -> 0;
+fraction([]) -> [];
 fraction([H|T]) ->
         L = [E || E <- T, max([H,E]) rem min([H,E]) =:= 0],
         if L =:= [] ->
                    fraction(T);
            true ->
-                   [E|_] = L,
-                   max([H,E]) / min([H,E])
+                   %[E|_] = L,
+                   %max([H,E]) / min([H,E])
+                   %F = fun(E) -> max([H,E]) / min([H,E]) end,
+                   append([max([H,E]) / min([H,E]) || E <- L],fraction(T))
         end.
 
 part2() ->
@@ -34,4 +36,4 @@ part2() ->
                  {Pid,Result} ->
                      Result
              end ||
-             Pid <- [spawn_link(fun() -> ParentPid ! {self(),fraction(L)} end) || L <- Input]]).
+             Pid <- [spawn_link(fun() -> ParentPid ! {self(),sum(fraction(L))} end) || L <- Input]]).
