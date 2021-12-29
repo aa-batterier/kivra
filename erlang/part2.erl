@@ -3,15 +3,14 @@
 -export([part2/0]).
 
 fraction([]) -> [];
+fraction([_|[]]) -> [];
 fraction([H|T]) ->
         L = [E || E <- T, max([H,E]) rem min([H,E]) =:= 0],
         if L =:= [] ->
                    fraction(T);
            true ->
-                   %[E|_] = L,
-                   %max([H,E]) / min([H,E])
-                   %F = fun(E) -> max([H,E]) / min([H,E]) end,
-                   append([max([H,E]) / min([H,E]) || E <- L],fraction(T))
+                   [E|_] = L,
+                   append([max([H,E]) / min([H,E])],fraction([X || X <- T, X =/= H, X =/= E]))
         end.
 
 part2() ->
