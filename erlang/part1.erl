@@ -24,8 +24,10 @@ part1() ->
         %sum([F(Lst) || Lst <- Input]).
         % With concurrency:
         ParentPid = self(),
-        sum([receive
-                 {Pid,Result} ->
-                     Result
-             end ||
-            Pid <- [spawn_link(fun() -> ParentPid ! {self(),F(L)} end) || L <- Input]]).
+        io:format("~w~n",
+                  [sum([receive
+                          {Pid,Result} ->
+                                Result
+                        end ||
+                        Pid <- [spawn_link(fun() ->
+                                            ParentPid ! {self(),F(L)} end) || L <- Input]])]).

@@ -31,8 +31,10 @@ part2() ->
                  [2290,157,2759,3771,4112,2063,153,3538,3740,130,3474,1013,180,2164,170,189],
                  [525,1263,146,954,188,232,1019,918,268,172,1196,1091,1128,234,650,420]],
         ParentPid = self(),
-        sum([receive
-                 {Pid,Result} ->
-                     Result
-             end ||
-             Pid <- [spawn_link(fun() -> ParentPid ! {self(),sum(fraction(L))} end) || L <- Input]]).
+        io:format("~w~n",
+                  [sum([receive
+                         {Pid,Result} ->
+                           Result
+                        end ||
+                        Pid <- [spawn_link(fun() ->
+                                            ParentPid ! {self(),sum(fraction(L))} end) || L <- Input]])]).
