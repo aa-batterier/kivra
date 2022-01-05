@@ -34,11 +34,9 @@
 ;; Sums together all the differences between the
 ;; the smallest and biggest number in each row.
 (defun part1 (matrix)
-  (cond ((atom matrix) 0)
-        ((not (listp (car matrix))) 0)
-        (t (reduce #'+ (mapcar #'(lambda (row)
-                                   (- (apply #'max row) (apply #'min row)))
-                               matrix)))))
+  (reduce #'+ (mapcar #'(lambda (row)
+                          (- (apply #'max row) (apply #'min row)))
+                      matrix)))
 
 ;;; Function: main
 ;; -----------------
